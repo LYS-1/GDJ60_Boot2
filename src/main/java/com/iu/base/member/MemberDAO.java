@@ -18,5 +18,7 @@ public interface MemberDAO {
 
 	public int setMemberInsert(MemberVO memberVO)throws Exception;
 	   
-	public int setRoleInsert(MemberVO memberVO);
+	public int setRoleInsert(MemberVO memberVO)throws Exception;
+	
+	public Long getCheckIdDup(MemberVO memberVO)throws Exception;
 }

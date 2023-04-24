@@ -2,9 +2,11 @@ package com.iu.base.member;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +22,30 @@ public class memberController {
 	@Autowired
 	private MemberService memberService;
 	
+	
+	
+	
 	@GetMapping("join")
 	public ModelAndView setJoin() throws Exception{
 		ModelAndView mv = new ModelAndView();
+		MemberVO memberVO = new MemberVO();
 		mv.setViewName("member/join");
+		mv.addObject(memberVO);
 		return mv;
 	}
 	
 	@PostMapping("join")
-	public ModelAndView setJoin(MemberVO memberVO) throws Exception{
+	public ModelAndView setJoin(@Valid MemberVO memberVO, BindingResult bindingResult) throws Exception{
 		
 		ModelAndView mv = new ModelAndView();
+		
+		boolean check = memberService.pwCheck(memberVO, bindingResult);
+		
+		if(check) {
+			mv.setViewName("member/join");
+			return mv;
+		}
+		
 		
 		int result = memberService.setJoin(memberVO);
 		
