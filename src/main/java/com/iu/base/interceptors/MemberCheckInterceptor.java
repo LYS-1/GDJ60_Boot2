@@ -36,7 +36,7 @@ public class MemberCheckInterceptor implements HandlerInterceptor{
 //					return true;
 //				}else {				
 //					request.setAttribute("message", "권한이 필요합니다.");
-//					request.setAttribute("url", "/home");
+//					request.setAttribute("url", "/");
 //					
 //					RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/result.jsp");
 //					view.forward(request, response);
