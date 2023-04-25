@@ -18,7 +18,7 @@
         	<!-- Navigation-->
           	 <c:import url="../temp/header.jsp"></c:import>
             <!-- Header-->
-            <h1>My Page</h1>
+            <h1>My Page ???????</h1>
         
         </main>
 		<!-- footer 적용 -->

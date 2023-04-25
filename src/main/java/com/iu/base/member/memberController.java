@@ -66,7 +66,7 @@ public class memberController {
 	public ModelAndView getLogOut(HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		session.invalidate();
-		mv.setViewName("redirect:/home");
+		mv.setViewName("redirect:/");
 		return mv;
 	}
 	
@@ -80,7 +80,7 @@ public class memberController {
 
 		mv.setViewName("redirect:./login");
 		if(memberVO !=null) {
-        	mv.setViewName("redirect:/home");
+        	mv.setViewName("redirect:/");
 		}	
 		return mv;
 	}
