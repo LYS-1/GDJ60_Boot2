@@ -34,3 +34,4 @@ build/
 
 ### MyIgnore ###
 application-dev.properties
+application-prod.properties
