@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iu.base.board.qna.QnaDAO">
+
+
+	<sql id="search">
+	<where>
+		<if test="kind == 'title'">
+		TITLE LIKE CONCAT('%',#{search},'%')</if>
+		<if test="kind == 'contents'">CONTENTS LIKE CONCAT('%',#{contents},'%')</if>
+		<if test="kind == 'writer'">WRITER LIKE CONCAT('%',#{writer},'%')</if>
+		
+	</where>
+	</sql>
+	
+	
+	
+	<update id="setInsertUp" parameterType="QnaVO" >
+	UPDATE QNA SET REF = #{num}
+	WHERE NUM = #{num}
+	</update>
+    
+	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+	SELECT COUNT(NUM) FROM QNA
+	<include refid="search"></include>
+	</select>
+
+	<insert id="setInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="num">
+	INSERT INTO QNA (NUM, TITLE, WRITER, CONTENTS,REGDATE,HIT,REF,STEP,DEPTH)
+	VALUES(#{num},#{title},#{writer},#{contents},now(),0,0,0,0)
+	
+	</insert>
+
+    <delete id="setDelete" parameterType="BoardVO">
+    DELETE FROM QNA WHERE NUM = #{num}
+    </delete>
+		
+	<update id="setUpdate" parameterType="BoardVO" >
+	UPDATE NOTICE SET TITLE = #{title},WRITER = #{writer},CONTENTS = #{contents}
+	WHERE NUM = #{num}
+	</update>
+
+	 <select id="getDetail" parameterType="QnaVO" resultMap="getDetailResult">
+		SELECT *
+		FROM QNA Q
+		LEFT JOIN
+		QNAFILES QF
+		ON (Q.NUM = QF.NUM)
+		WHERE Q.NUM = #{num}
+	</select>
+	
+	<resultMap type="QnaVO" id="getDetailResult">
+   	<!--select된 것들중에 pk를 id에다가 써줘  -->
+        <id column="num" property="num"/>
+  		<result column="contents" property="contents"/>
+  		<result column="writer" property="writer"/>
+  		<result column="regDate" property="regDate"/>
+  		<result column="title" property="title"/>
+  		<result column="hit" property="hit"/>
+  		<result column="ref" property="ref"/>
+  		<result column="step" property="step"/>
+  		<result column="depth" property="depth"/>
+  		
+	<!--type에 멤버메서드중에서 속성을 넣어주기  -->
+	<!--of type은 제네릭 타입을 쓰라는 뜻입니다 column은 대소문자구문 하지 않습니다-->
+	<collection property="boardFileVOs" javaType="List" ofType="BoardFileVO">
+		<id column="fileNum" property="fileNum" />
+		<result column="fileName"  property="fileName"/>
+		<result column="oriName" property="oriName" />
+	</collection>
+	</resultMap>
+	
+	<select id="getList" parameterType="Pager"  resultType="NoticeVO" >
+	SELECT * FROM QNA 
+	<include refid="search"></include>
+	ORDER BY NUM DESC
+	LIMIT #{startRow},#{perPage}
+	</select>
+	
+	
+	<select id="getFileDetail" parameterType="BoardFileVO" resultType="NoticeVO">
+	SELECT * FROM NOTICEFILES
+	</select>
+	
+	<insert id="setFileInsert" parameterType="BoardFileVO" >
+	INSERT INTO NOTICEFILES (NUM , FILENUM , FILENAME, ORINAME)
+	VALUES(#{num},#{fileNum},#{fileName},#{oriName})
+	</insert>
+
+</mapper>
