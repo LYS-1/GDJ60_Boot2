@@ -2,6 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.iu.base.member.MemberDAO">
+	
+	
+	<select id="getBirthDayMember" resultMap="getIdList">
+		SELECT USERNAME, NAME, EMAIL FROM MEMBER WHERE DATE_FORMAT(BIRTH , '%m-%d') = DATE_FORMAT(now() , '%m-%d')
+	</select>
+	
+	
+	<select id="checkLastDate" parameterType="MemberVO" resultType="Long">
+		SELECT TIMESTAMPDIFF(DAY, #{lastTime}, NOW())
+	</select>
+	<update id="setEnable" parameterType="MemberVO">
+		UPDATE MEMBER SET ENABLED = 0 WHERE USERNAME = #{userName}
+	</update>
+	
+	<update id="setEnable1">
+		UPDATE MEMBER SET ENABLED = 0
+		WHERE USERNAME IN (SELECT USERNAME FROM MEMBER WHERE TIMESTAMPDIFF(DAY, LASTTIME, NOW()) >= 3) ;
+	</update>
+	
+	
+	<update id="setLogout" parameterType="MemberVO">
+		UPDATE MEMBER SET LASTTIME = NOW() WHERE USERNAME = #{userName}
+	</update>
+	
+	<select id="getIdList" resultMap="getIdList">
+		SELECT USERNAME, LASTTIME FROM MEMBER
+	</select>
+	
+	<resultMap type="MemberVO" id="getIdList">
+		<id property="userName" column="userName"/>
+		<result property="lastTime" column="lastTime"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+	</resultMap>
+	
 	<select id="getCheckIdDup" parameterType="memberVO" resultType="Long">
 		SELECT COUNT(USERNAME) FROM MEMBER WHERE USERNAME = #{userName}
 	</select>

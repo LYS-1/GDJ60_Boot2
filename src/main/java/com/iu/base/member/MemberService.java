@@ -18,6 +18,10 @@ public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
 	
+	public int setLogout(MemberVO memberVO) throws Exception{
+		return memberDAO.setLogout(memberVO);
+	}
+	
 	//패스워드가 일치하는지 검증하는 메서드
 		public boolean pwCheck(MemberVO memberVO, BindingResult bindingResult) throws Exception{
 			boolean result = false;

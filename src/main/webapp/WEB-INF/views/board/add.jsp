@@ -59,7 +59,7 @@
                                     </div>
                                     <!-- 작성자 address input-->
                                     <div class="form-floating mb-3">
-                                       <form:input path="writer" id="writer" cssClass="form-control"/>
+                                       	<form:input path="writer" id="writer" cssClass="form-control" value="${member.userName}"/>
                                         <!-- <input class="form-control" id="writer" type="text" name="writer" data-sb-validations="required,email" /> -->
                                         <label for="writer">Writer</label>
                                         <form:errors path="writer" cssClass="is-invalid"></form:errors>

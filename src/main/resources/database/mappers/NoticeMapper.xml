@@ -7,6 +7,10 @@
 
   <mapper namespace="com.iu.base.board.notice.NoticeDAO">
   
+  	<select id="getBirthDayCount" resultType="Long">
+		SELECT COUNT(NUM) FROM NOTICE WHERE TITLE = 'Happy BirthDay' AND DATE_FORMAT(NOW(), '%y-%m-%d') = DATE_FORMAT(REGDATE, '%y-%m-%d')
+	</select>
+  
   <sql id="search">
   	<where>
   	<if test="kind == 'title'">

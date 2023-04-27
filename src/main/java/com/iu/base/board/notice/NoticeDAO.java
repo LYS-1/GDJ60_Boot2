@@ -6,6 +6,7 @@ import com.iu.base.board.BoardDAO;
 
 @Mapper
 public interface NoticeDAO extends BoardDAO{
-
+	
+	public Long getBirthDayCount() throws Exception;
 	
 }

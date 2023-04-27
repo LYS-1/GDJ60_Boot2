@@ -20,9 +20,9 @@ public class BoardVO {
 	private String title;
 	private String contents;
 	@NotBlank
-	private  String writer;
-	private  Date regDate;
-	private  Long hit;
+	private String writer;
+	private Date regDate;
+	private Long hit;
 	private SubVO subVO;
 	//private String [] names;
 	private List<String> names;
