@@ -35,29 +35,30 @@ public class TestSchedule {
 		List<MemberVO> birthList = memberDAO.getBirthDayMember();
 		
 		String NameList = "";
-		
-		for(int i = 0; i < birthList.size(); i ++) {
-			if(i == 0) {
-				NameList = NameList + birthList.get(i).getName();
-			}else {				
-				NameList = NameList + ", " + birthList.get(i).getName();
+		if(birthList.size() != 0) {			
+			for(int i = 0; i < birthList.size(); i ++) {
+				if(i == 0) {
+					NameList = NameList + birthList.get(i).getName();
+				}else {				
+					NameList = NameList + ", " + birthList.get(i).getName();
+				}
+			}
+			long birthCount = noticeDAO.getBirthDayCount();
+			
+			if(birthCount == 0) {			
+				BoardVO boardVO = new BoardVO();
+				boardVO.setContents("Happy Birth Day <br><br>" + NameList);
+				boardVO.setWriter("Manager");
+				boardVO.setTitle("Happy BirthDay");
+				
+				noticeDAO.setInsert(boardVO);
+			}
+			
+			if(ch == 0) {
+				ch = sm.sendMail(birthList, ch);
 			}
 		}
 		
-		long birthCount = noticeDAO.getBirthDayCount();
-		
-		if(birthCount == 0) {			
-			BoardVO boardVO = new BoardVO();
-			boardVO.setContents("Happy Birth Day <br><br>" + NameList);
-			boardVO.setWriter("Manager");
-			boardVO.setTitle("Happy BirthDay");
-			
-			noticeDAO.setInsert(boardVO);
-		}
-		
-		if(ch == 0) {
-			ch = sm.sendMail(birthList, ch);
-		}
 		
 		
 //		List<MemberVO> mv = memberDAO.getIdList();
